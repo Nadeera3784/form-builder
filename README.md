@@ -1,9 +1,5 @@
 # Form Builder
 
-A modern, full-stack web application for creating, sharing, and managing custom forms and submission tracking.
-
-## Description
-
 Form Builder is a powerful and intuitive platform that allows users to create custom forms using a drag-and-drop interface. The application provides a seamless experience for form creation, sharing, and submission analysis. Users can create various types of forms, share them via unique links, and collect and analyze submissions in real-time.
 
 ## Features
@@ -145,27 +141,3 @@ npm run seed:admin
 This will create an admin user with the following credentials:
 - Email: admin@formbuilder.com
 - Password: Admin123!
-
-For security reasons, please change the password after the first login.
-
-## Usage
-
-1. Register a new account or log in with existing credentials
-2. Navigate to the dashboard to view your forms
-3. Click "Create New Form" to start building a form
-4. Use the drag-and-drop interface to add form elements
-5. Configure element properties in the right sidebar
-6. Save your form and get a shareable link
-7. View form submissions from the dashboard
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-
-## Acknowledgments
-
-- [React](https://reactjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Express](https://expressjs.com/)
-- [MongoDB](https://www.mongodb.com/) 
