@@ -29,21 +29,21 @@ Form Builder is a powerful and intuitive platform that allows users to create cu
 ## Tech Stack
 
 ### Frontend
-- **React**: UI library for building the user interface
-- **React Router**: For client-side routing
-- **Tailwind CSS**: Utility-first CSS framework for styling
-- **Axios**: HTTP client for API requests
-- **Lucide React**: Icon library
-- **Vite**: Build tool and development server
+- **React**
+- **React Router**
+- **Tailwind CSS**
+- **Axios**
+- **Lucide React**
+- **Vite**
 
 ### Backend
-- **Node.js**: JavaScript runtime for the server
-- **Express**: Web framework for Node.js
-- **MongoDB**: NoSQL database for data storage
-- **Mongoose**: MongoDB object modeling for Node.js
-- **JWT**: JSON Web Tokens for authentication
-- **bcrypt**: Library for password hashing
-- **Docker**: Containerization for easy deployment
+- **Node.js**
+- **Express**
+- **MongoDB**
+- **Mongoose**
+- **JWT**
+- **bcrypt**
+- **Docker**
 
 ## Architecture
 
