@@ -3,14 +3,10 @@ const router = express.Router();
 const User = require('../models/User');
 const { protect } = require('../middleware/auth');
 
-// @route   POST /api/auth/register
-// @desc    Register user
-// @access  Public
 router.post('/register', async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if user exists
     let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
@@ -19,7 +15,6 @@ router.post('/register', async (req, res, next) => {
       });
     }
 
-    // Create user
     user = await User.create({
       name,
       email,
@@ -32,14 +27,11 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-// @route   POST /api/auth/login
-// @desc    Login user
-// @access  Public
+
 router.post('/login', async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    // Validate email & password
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -47,7 +39,6 @@ router.post('/login', async (req, res, next) => {
       });
     }
 
-    // Check for user
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
       return res.status(401).json({
@@ -56,7 +47,6 @@ router.post('/login', async (req, res, next) => {
       });
     }
 
-    // Check if password matches
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
       return res.status(401).json({
@@ -71,9 +61,6 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
-// @route   GET /api/auth/me
-// @desc    Get current logged in user
-// @access  Private
 router.get('/me', protect, async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
@@ -87,11 +74,8 @@ router.get('/me', protect, async (req, res, next) => {
   }
 });
 
-// Helper function to get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
-  // Create token
   const token = user.getSignedJwtToken();
-
   res.status(statusCode).json({
     success: true,
     token,

@@ -18,7 +18,6 @@ const PrivateRoute = ({
     return <Navigate to="/login" />;
   }
 
-  // Check for required role if specified
   if (requiredRole && children.props.user?.role !== requiredRole) {
     return <Navigate to="/dashboard" />;
   }

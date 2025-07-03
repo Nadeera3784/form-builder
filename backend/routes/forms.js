@@ -3,12 +3,8 @@ const router = express.Router();
 const Form = require('../models/Form');
 const { protect, authorize } = require('../middleware/auth');
 
-// @route   POST /api/forms
-// @desc    Create a new form
-// @access  Private
 router.post('/', protect, async (req, res, next) => {
   try {
-    // Add user to req.body
     req.body.user = req.user.id;
 
     const form = await Form.create(req.body);
@@ -22,14 +18,10 @@ router.post('/', protect, async (req, res, next) => {
   }
 });
 
-// @route   GET /api/forms
-// @desc    Get all forms for logged in user or all forms for admin
-// @access  Private
 router.get('/', protect, async (req, res, next) => {
   try {
     let query;
 
-    // If user is admin, get all forms, else get only user's forms
     if (req.user.role === 'admin') {
       query = Form.find().populate({
         path: 'user',
@@ -51,9 +43,6 @@ router.get('/', protect, async (req, res, next) => {
   }
 });
 
-// @route   GET /api/forms/:id
-// @desc    Get single form
-// @access  Private
 router.get('/:id', protect, async (req, res, next) => {
   try {
     const form = await Form.findById(req.params.id);
@@ -65,7 +54,6 @@ router.get('/:id', protect, async (req, res, next) => {
       });
     }
 
-    // Make sure user owns the form or is admin
     if (form.user.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(401).json({
         success: false,
@@ -82,9 +70,6 @@ router.get('/:id', protect, async (req, res, next) => {
   }
 });
 
-// @route   PUT /api/forms/:id
-// @desc    Update form
-// @access  Private
 router.put('/:id', protect, async (req, res, next) => {
   try {
     let form = await Form.findById(req.params.id);
@@ -96,7 +81,6 @@ router.put('/:id', protect, async (req, res, next) => {
       });
     }
 
-    // Make sure user owns the form or is admin
     if (form.user.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(401).json({
         success: false,
@@ -118,9 +102,6 @@ router.put('/:id', protect, async (req, res, next) => {
   }
 });
 
-// @route   DELETE /api/forms/:id
-// @desc    Delete form
-// @access  Private
 router.delete('/:id', protect, async (req, res, next) => {
   try {
     const form = await Form.findById(req.params.id);
@@ -132,7 +113,6 @@ router.delete('/:id', protect, async (req, res, next) => {
       });
     }
 
-    // Make sure user owns the form or is admin
     if (form.user.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(401).json({
         success: false,
@@ -151,9 +131,6 @@ router.delete('/:id', protect, async (req, res, next) => {
   }
 });
 
-// @route   GET /api/forms/public/:shareableLink
-// @desc    Get form by shareable link (public access)
-// @access  Public
 router.get('/public/:shareableLink', async (req, res, next) => {
   try {
     const form = await Form.findOne({ 
@@ -176,9 +153,6 @@ router.get('/public/:shareableLink', async (req, res, next) => {
   }
 });
 
-// @route   POST /api/forms/submit/:shareableLink
-// @desc    Submit a form response
-// @access  Public
 router.post('/submit/:shareableLink', async (req, res, next) => {
   try {
     const form = await Form.findOne({ shareableLink: req.params.shareableLink });
@@ -190,7 +164,6 @@ router.post('/submit/:shareableLink', async (req, res, next) => {
       });
     }
 
-    // Add submission to form
     form.submissions.push({
       data: req.body
     });

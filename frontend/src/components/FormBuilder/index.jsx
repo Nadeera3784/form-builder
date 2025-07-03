@@ -29,18 +29,15 @@ const FormBuilder = ({ user }) => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   
-  // History management for undo/redo
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   
-  // Load form data if editing an existing form
   useEffect(() => {
     if (id) {
       fetchFormData();
     }
   }, [id]);
   
-  // Check if user is authenticated
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -48,7 +45,6 @@ const FormBuilder = ({ user }) => {
     }
   }, []);
   
-  // Initialize history
   useEffect(() => {
     saveToHistory(formElements);
   }, []);
@@ -78,7 +74,6 @@ const FormBuilder = ({ user }) => {
     }
   };
   
-  // Save form to the server
   const saveForm = async () => {
     try {
       setLoading(true);
@@ -102,7 +97,6 @@ const FormBuilder = ({ user }) => {
       let response;
       
       if (id) {
-        // Update existing form
         response = await axios.put(
           `${API_BASE_URL}/api/forms/${id}`,
           formData,
@@ -113,7 +107,6 @@ const FormBuilder = ({ user }) => {
           }
         );
       } else {
-        // Create new form
         response = await axios.post(
           `${API_BASE_URL}/api/forms`,
           formData,
@@ -128,7 +121,6 @@ const FormBuilder = ({ user }) => {
       if (response.data.success) {
         setSuccessMessage('Form saved successfully!');
         
-        // If creating a new form, redirect to edit page
         if (!id && response.data.data._id) {
           navigate(`/form-builder/${response.data.data._id}`);
         }
@@ -139,7 +131,6 @@ const FormBuilder = ({ user }) => {
     } finally {
       setLoading(false);
       
-      // Clear success message after 3 seconds
       if (successMessage) {
         setTimeout(() => {
           setSuccessMessage('');
@@ -148,7 +139,6 @@ const FormBuilder = ({ user }) => {
     }
   };
 
-  // History management for undo/redo
   const saveToHistory = (elements) => {
     const newHistory = [...history.slice(0, historyIndex + 1), JSON.parse(JSON.stringify(elements))];
     setHistory(newHistory);
@@ -169,13 +159,11 @@ const FormBuilder = ({ user }) => {
     }
   };
 
-  // Handle drag start from library
   const handleDragStart = (type, fromLibrary = true, elementId = null) => {
     if (fromLibrary) {
       setDraggedElement({ type, fromLibrary });
     } else {
       setDraggedElement({ type, fromLibrary, elementId });
-      // When reordering, we'll temporarily hide the original
       const draggedEl = document.getElementById(elementId);
       if (draggedEl) {
         draggedEl.style.opacity = 0.4;
@@ -183,9 +171,7 @@ const FormBuilder = ({ user }) => {
     }
   };
 
-  // Handle drag end
   const handleDragEnd = () => {
-    // Reset opacity of all elements
     formElements.forEach(element => {
       const el = document.getElementById(element.id);
       if (el) {
@@ -194,16 +180,13 @@ const FormBuilder = ({ user }) => {
     });
   };
 
-  // Handle dropping an element onto the canvas
   const handleDrop = (e) => {
     e.preventDefault();
     if (!draggedElement) return;
 
-    // Calculate drop position for insertion index
     const formCanvasRect = e.currentTarget.getBoundingClientRect();
     const dropY = e.clientY - formCanvasRect.top;
     
-    // Determine insertion index by finding the closest element
     let insertIndex = formElements.length;
     const elementRects = formElements.map((el, index) => {
       const rect = document.getElementById(el.id)?.getBoundingClientRect();
@@ -220,11 +203,9 @@ const FormBuilder = ({ user }) => {
       }
     }
 
-    // Create a copy of current elements to modify
     let newFormElements = [...formElements];
     
     if (draggedElement.fromLibrary) {
-      // Add new element from library
       const newElement = {
         id: `${draggedElement.type}-${Date.now()}`,
         type: draggedElement.type,
@@ -232,7 +213,6 @@ const FormBuilder = ({ user }) => {
         placeholder: `Enter ${draggedElement.type} here`
       };
       
-      // Add default options for select and radio elements
       if (draggedElement.type === 'select' || draggedElement.type === 'radio') {
         newElement.options = [
           { value: 'option1', label: 'Option 1' },
@@ -240,20 +220,17 @@ const FormBuilder = ({ user }) => {
         ];
       }
       
-      // Insert at the calculated position
       newFormElements.splice(insertIndex, 0, newElement);
       setSelectedElement(newElement.id);
     } else {
-      // Reordering existing element
+
       const draggedElementIndex = newFormElements.findIndex(el => el.id === draggedElement.elementId);
       if (draggedElementIndex !== -1) {
-        // Remove from old position
+
         const [movedElement] = newFormElements.splice(draggedElementIndex, 1);
         
-        // Adjust insert index if needed (when moving down)
         const adjustedInsertIndex = draggedElementIndex < insertIndex ? insertIndex - 1 : insertIndex;
         
-        // Insert at new position
         newFormElements.splice(adjustedInsertIndex, 0, movedElement);
         setSelectedElement(movedElement.id);
       }
@@ -264,7 +241,6 @@ const FormBuilder = ({ user }) => {
     setDraggedElement(null);
   };
 
-  // Update element settings
   const updateElementSetting = (id, field, value) => {
     const updatedElements = formElements.map(el => 
       el.id === id ? { ...el, [field]: value } : el
@@ -273,7 +249,6 @@ const FormBuilder = ({ user }) => {
     saveToHistory(updatedElements);
   };
 
-  // Delete an element
   const deleteElement = (id) => {
     const updatedElements = formElements.filter(el => el.id !== id);
     setFormElements(updatedElements);
@@ -281,7 +256,6 @@ const FormBuilder = ({ user }) => {
     if (selectedElement === id) setSelectedElement(null);
   };
 
-  // Duplicate an element
   const duplicateElement = (id) => {
     const elementToDuplicate = formElements.find(el => el.id === id);
     if (elementToDuplicate) {
@@ -300,12 +274,10 @@ const FormBuilder = ({ user }) => {
     }
   };
 
-  // Get the currently selected element
   const getSelectedElement = () => {
     return formElements.find(el => el.id === selectedElement);
   };
 
-  // Add option to select or radio element
   const addOption = () => {
     const element = getSelectedElement();
     if (element && (element.type === 'select' || element.type === 'radio')) {
@@ -319,7 +291,6 @@ const FormBuilder = ({ user }) => {
     }
   };
 
-  // Remove option from select or radio element
   const removeOption = (index) => {
     const element = getSelectedElement();
     if (element && (element.type === 'select' || element.type === 'radio') && element.options) {
@@ -333,7 +304,6 @@ const FormBuilder = ({ user }) => {
     }
   };
 
-  // Update option in select or radio element
   const updateOption = (index, field, value) => {
     const element = getSelectedElement();
     if (element && (element.type === 'select' || element.type === 'radio') && element.options) {
@@ -347,7 +317,6 @@ const FormBuilder = ({ user }) => {
     }
   };
 
-  // Apply template
   const applyTemplate = (template) => {
     setFormElements(JSON.parse(JSON.stringify(template.elements)));
     setFormName(template.name);
@@ -356,7 +325,6 @@ const FormBuilder = ({ user }) => {
     setShowTemplates(false);
   };
 
-  // Export form configuration
   const exportForm = () => {
     const formConfig = {
       name: formName,
@@ -376,7 +344,6 @@ const FormBuilder = ({ user }) => {
     URL.revokeObjectURL(url);
   };
 
-  // Import form configuration
   const importForm = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -412,7 +379,6 @@ const FormBuilder = ({ user }) => {
         loading={loading}
       />
       
-      {/* Success and error messages */}
       {successMessage && (
         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4 mx-6 mt-4" role="alert">
           <span className="block sm:inline">{successMessage}</span>
@@ -432,7 +398,6 @@ const FormBuilder = ({ user }) => {
         </div>
       )}
       
-      {/* Form title and description */}
       <div className="bg-white border-b border-gray-200 p-6">
         <input
           type="text"
@@ -450,17 +415,13 @@ const FormBuilder = ({ user }) => {
         />
       </div>
       
-      {/* Main content area */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Left sidebar - Element Library */}
         <FormElementLibrary 
           handleDragStart={handleDragStart}
           exportForm={exportForm}
           importForm={importForm}
           showHelp={() => setShowHelp(true)}
         />
-        
-        {/* Form canvas */}
         <FormCanvas 
           formElements={formElements}
           selectedElement={selectedElement}
@@ -468,10 +429,10 @@ const FormBuilder = ({ user }) => {
           handleDrop={handleDrop}
           handleDragOver={(e) => {
             e.preventDefault();
-            // Show drop indicator logic would go here
+            
           }}
           handleDragLeave={() => {
-            // Hide drop indicator logic would go here
+           
           }}
           handleDragStart={handleDragStart}
           handleDragEnd={handleDragEnd}
@@ -480,7 +441,6 @@ const FormBuilder = ({ user }) => {
           showTemplates={() => setShowTemplates(true)}
         />
         
-        {/* Right sidebar - Element Settings */}
         <ElementSettings 
           selectedElement={getSelectedElement()}
           updateElementSetting={updateElementSetting}

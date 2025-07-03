@@ -3,9 +3,6 @@ const router = express.Router();
 const User = require('../models/User');
 const { protect, authorize } = require('../middleware/auth');
 
-// @route   GET /api/users
-// @desc    Get all users
-// @access  Private/Admin
 router.get('/', protect, authorize('admin'), async (req, res, next) => {
   try {
     const users = await User.find().select('-password');
@@ -20,9 +17,6 @@ router.get('/', protect, authorize('admin'), async (req, res, next) => {
   }
 });
 
-// @route   GET /api/users/:id
-// @desc    Get single user
-// @access  Private/Admin
 router.get('/:id', protect, authorize('admin'), async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
@@ -43,9 +37,6 @@ router.get('/:id', protect, authorize('admin'), async (req, res, next) => {
   }
 });
 
-// @route   PUT /api/users/:id
-// @desc    Update user
-// @access  Private/Admin
 router.put('/:id', protect, authorize('admin'), async (req, res, next) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
@@ -69,9 +60,6 @@ router.put('/:id', protect, authorize('admin'), async (req, res, next) => {
   }
 });
 
-// @route   DELETE /api/users/:id
-// @desc    Delete user
-// @access  Private/Admin
 router.delete('/:id', protect, authorize('admin'), async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);

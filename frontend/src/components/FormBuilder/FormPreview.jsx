@@ -2,7 +2,7 @@ import React from 'react';
 import { Eye, X } from 'lucide-react';
 
 const FormPreview = ({ formName, formDescription, formElements, closePreview }) => {
-  // Styles for preview elements
+
   const elementClasses = {
     wrapper: "mb-5",
     label: "block mb-2 text-sm font-medium text-gray-700",
@@ -14,7 +14,6 @@ const FormPreview = ({ formName, formDescription, formElements, closePreview }) 
     submitButton: "px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200 font-medium"
   };
 
-  // Render a form element for preview (without edit controls)
   const renderPreviewElement = (element) => {
     switch (element.type) {
       case 'text':

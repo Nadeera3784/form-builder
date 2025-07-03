@@ -10,11 +10,9 @@ const Home = () => {
 
   return (
     <div className="bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen">
-      {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-24 md:py-32">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute left-0 top-0 w-full h-full opacity-10">
-            {/* Abstract background pattern */}
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
               <path d="M0,0 L100,0 L100,100 L0,100 Z" fill="url(#grid)" />
             </svg>

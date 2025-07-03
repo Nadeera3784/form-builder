@@ -3,12 +3,10 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import "./index.css";
 
-// Components
 import FormBuilder from "./components/FormBuilder";
 import Navbar from "./components/Navbar";
 import PrivateRoute from "./components/PrivateRoute";
 
-// Pages
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -26,7 +24,6 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in
     const token = localStorage.getItem("token");
     const userData = localStorage.getItem("user");
 

@@ -4,18 +4,12 @@ const User = require('../models/User');
 const Form = require('../models/Form');
 const { protect, authorize } = require('../middleware/auth');
 
-// @desc    Get system statistics
-// @route   GET /api/admin/stats
-// @access  Private/Admin
 router.get('/stats', protect, authorize('admin'), async (req, res) => {
   try {
-    // Get total users count
     const totalUsers = await User.countDocuments();
     
-    // Get total forms count
     const totalForms = await Form.countDocuments();
     
-    // Get total submissions count (assuming submissions are stored in forms)
     const forms = await Form.find();
     let totalSubmissions = 0;
     

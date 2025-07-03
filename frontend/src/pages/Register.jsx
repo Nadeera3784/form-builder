@@ -24,7 +24,6 @@ const Register = ({ login, isAuthenticated }) => {
     setLoading(true);
     setError("");
 
-    // Check if passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       setLoading(false);

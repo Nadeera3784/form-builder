@@ -1,7 +1,6 @@
 import React from 'react';
 import { Copy, Trash2 } from 'lucide-react';
 
-// Import individual element components
 import TextElement from './FormElements/TextElement';
 import TextareaElement from './FormElements/TextareaElement';
 import CheckboxElement from './FormElements/CheckboxElement';
@@ -25,7 +24,6 @@ const FormElement = ({
   onDuplicate, 
   onDelete 
 }) => {
-  // Common wrapper with drag handlers for reordering
   const wrapperProps = {
     id: element.id,
     className: `mb-4 p-3 border rounded-md transition-all duration-200 ${isSelected ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'} cursor-pointer`,
@@ -35,7 +33,6 @@ const FormElement = ({
     onDragEnd: onDragEnd
   };
   
-  // Add move handle and actions
   const elementHeader = (
     <div className="flex justify-between mb-2">
       <div className="flex gap-2 items-center">
@@ -71,7 +68,6 @@ const FormElement = ({
     </div>
   );
 
-  // Render the appropriate element based on type
   const renderElement = () => {
     switch (element.type) {
       case 'text':

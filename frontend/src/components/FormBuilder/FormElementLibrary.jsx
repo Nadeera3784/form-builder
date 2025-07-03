@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 const FormElementLibrary = ({ handleDragStart, exportForm, importForm, showHelp }) => {
-  // Library elements
+
   const libraryElements = [
     { type: 'text', icon: <Type size={18} />, label: 'Text Field' },
     { type: 'textarea', icon: <AlignLeft size={18} />, label: 'Text Area' },
@@ -93,9 +93,7 @@ const FormElementLibrary = ({ handleDragStart, exportForm, importForm, showHelp 
   );
 };
 
-// Helper function to generate form code
 const generateFormCode = () => {
-  // This is a simplified implementation
   return `<form id="my-form" class="form-default">
   <!-- Form elements will be generated here -->
   <button type="submit">Submit</button>

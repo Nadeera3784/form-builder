@@ -37,10 +37,8 @@ const FormSchema = new mongoose.Schema({
   }
 });
 
-// Generate shareable link before saving
 FormSchema.pre('save', function(next) {
   if (!this.shareableLink) {
-    // Generate a unique shareable link
     const randomString = crypto.randomBytes(8).toString('hex');
     this.shareableLink = `${randomString}`;
   }

@@ -45,29 +45,8 @@ Form Builder is a powerful and intuitive platform that allows users to create cu
 - **bcrypt**
 - **Docker**
 
-## Architecture
 
-The application follows a modern client-server architecture:
-
-### Frontend Architecture
-- **Component-Based Structure**: Modular React components for reusability
-- **State Management**: React hooks for local state management
-- **Routing**: React Router for navigation between pages
-- **API Integration**: Axios for communication with the backend
-
-### Backend Architecture
-- **RESTful API**: Express routes organized by resource
-- **MVC Pattern**: Models, routes, and controllers separation
-- **Authentication Middleware**: JWT verification for protected routes
-- **Database Models**: Mongoose schemas for data structure
-- **Error Handling**: Centralized error handling middleware
-
-### Database Schema
-- **Users**: Store user information and authentication details
-- **Forms**: Store form configurations and metadata
-- **Submissions**: Store form submission data linked to forms
-
-## Installation Guide
+## Installation 
 
 ### Prerequisites
 - Node.js (v14 or higher)

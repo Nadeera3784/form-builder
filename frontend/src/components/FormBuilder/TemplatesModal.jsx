@@ -2,7 +2,7 @@ import React from 'react';
 import { X, PlusCircle } from 'lucide-react';
 
 const TemplatesModal = ({ applyTemplate, closeTemplates }) => {
-  // Form templates
+
   const formTemplates = [
     {
       name: 'Contact Form',
